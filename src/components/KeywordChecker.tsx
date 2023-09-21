@@ -4,12 +4,11 @@ import KeywordCheckerProps from '../interfaces/KeywordCheckerProps';
 
 const KeywordChecker: React.FC<KeywordCheckerProps> = ({ text }) => {
   const [isKeyword, setIsKeyword] = useState(false);
-
   useEffect(() => {
     const checkKeyword = async () => {
       try {
         const response = await fetch(`${API_SERVER_URL}/word?key=${text}`);
-        
+
         if (!response.ok) {
           throw new Error('La solicitud no tuvo éxito.');
         }
@@ -21,12 +20,7 @@ const KeywordChecker: React.FC<KeywordCheckerProps> = ({ text }) => {
       }
     };
 
-    if (text) {
-      checkKeyword();
-    } else {
-      // Si el texto está vacío, no es necesario hacer la solicitud
-      setIsKeyword(false);
-    }
+    text ? checkKeyword() : setIsKeyword(false);
   }, [text]);
 
   return null;
