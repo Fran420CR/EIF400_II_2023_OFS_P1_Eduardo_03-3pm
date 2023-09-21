@@ -1,6 +1,6 @@
 import { API_SERVER_URL } from './Url';
 import React, { useState, useEffect } from 'react';
-import KeywordCheckerProps from '../interfaces/KeywordChecker';
+import KeywordCheckerProps from '../interfaces/KeywordCheckerProps';
 
 const KeywordChecker: React.FC<KeywordCheckerProps> = ({ text }) => {
   const [isKeyword, setIsKeyword] = useState(false);
