@@ -3,10 +3,7 @@ import { API_SERVER_URL } from './Url';
 import KeywordChecker from './KeywordChecker';
 import styles from '../styles/TextEditor.module.css';
 import { renderLineNumbers } from './TextUtils';
-
-interface TextEditorProps {
-  keywordsList: string[];
-}
+import TextEditorProps from '../interfaces/TextEditorProps';
 
 const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
   const [inputText, setInputText] = useState<string>('');
