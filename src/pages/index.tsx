@@ -27,7 +27,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="Home">
-      <h1>One Flow Stream</h1>
+      <h1 style={{ textAlign: 'center' }}>OneFlowStream</h1>
       <TextEditor keywordsList={keywordsList} />
     </div>
   );

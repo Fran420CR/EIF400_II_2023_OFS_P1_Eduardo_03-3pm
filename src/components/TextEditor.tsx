@@ -106,7 +106,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
             ))}
           </div>
         )}
-        <div className={styles.lineNumbers}>{renderLineNumbers(inputText)}</div>
+        <div className={styles.lineNumbers}>{renderLineNumbers(outputText)}</div>
         <textarea
           id={styles.TO}
           className={`${styles.customTextarea}`}
