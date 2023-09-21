@@ -31,6 +31,8 @@ const Home: React.FC = () => {
       <TextEditor keywordsList={keywordsList} />
     </div>
   );
+
+  
 };
 
 export default Home;
