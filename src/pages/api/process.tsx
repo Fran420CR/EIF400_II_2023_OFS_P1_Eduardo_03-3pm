@@ -8,4 +8,5 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   } else {
     res.status(405).end(); // Método no permitido
   }
+  
 }

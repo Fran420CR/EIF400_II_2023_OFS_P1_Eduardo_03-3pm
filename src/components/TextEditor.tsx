@@ -8,18 +8,12 @@ import TextEditorProps from '../interfaces/TextEditorProps';
 const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
   const [inputText, setInputText] = useState<string>('');
   const [outputText, setOutputText] = useState<string>('');
-  const [isSaved, setIsSaved] = useState<boolean>(false);
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [selectedSuggestion, setSelectedSuggestion] = useState<string>('');
 
   const handleClear = () => {
     const confirmed = window.confirm('Are you sure you want to clear the text?');
     if (confirmed) {
       setInputText('');
       setOutputText('');
-      setIsSaved(false);
-      setSelectedSuggestion('');
-      setSuggestions([]);
     }
   };
 
@@ -32,28 +26,12 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
       .map((word) => word.trim())
       .filter((trimmedWord) => keywordsList.includes(trimmedWord));
 
-    const matchingSuggestions = keywordsList.filter((keyword) =>
-      keyword.toLowerCase().includes(newText.toLowerCase())
-    );
-
-    setSuggestions(newText.trim() ? matchingSuggestions : []);
-
     const processedText = processedWords.join(' ');
 
     // Actualizar el outputText según el valor actual del inputText
     setOutputText(processedText);
-
-    setIsSaved(false);
   };
 
-  const handleSuggestionSelected = (suggestion: string) => {
-    setInputText(suggestion);
-    setSelectedSuggestion(suggestion);
-    setSuggestions([]); // Ocultar sugerencias al seleccionar una
-
-    // Actualizar el outputText cuando se selecciona una sugerencia
-    setOutputText(suggestion);
-  };
 
   const handleSendToServer = async () => {
     try {
@@ -70,10 +48,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
       }
 
       const data = await response.json();
-      setSelectedSuggestion(data.result);
       setOutputText(data.result);
 
-      setIsSaved(true);
     } catch (error) {
       console.error('Error sending data to server:', error);
     }
@@ -81,8 +57,13 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
 
   return (
     <div>
+
       <div className={styles.customContainer}>
-        <div className={styles.lineNumbers}>{renderLineNumbers(inputText)}</div>
+
+        <div className={styles.lineNumbers}>
+          {renderLineNumbers(inputText)}
+        </div>
+
         <textarea
           id={styles.TI}
           className={`${styles.customTextarea}`}
@@ -90,28 +71,22 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
           onChange={handleInputChange}
           placeholder=""
         />
-        {suggestions.length > 0 && (
-          <div className="suggestions">
-            {suggestions.map((suggestion) => (
-              <div
-                key={suggestion}
-                className="suggestion-item"
-                onClick={() => handleSuggestionSelected(suggestion)}
-              >
-                {suggestion}
-              </div>
-            ))}
-          </div>
-        )}
-        <div className={styles.lineNumbers}>{renderLineNumbers(outputText)}</div>
+
+        <div className={styles.lineNumbers}>
+          {renderLineNumbers(outputText)}
+        </div>
+
+
         <textarea
           id={styles.TO}
           className={`${styles.customTextarea}`}
           readOnly
-          value={selectedSuggestion || outputText}
+          value={outputText}
         />
         <KeywordChecker text={inputText} />
       </div>
+
+
       <div className={styles.customButtons}>
         <button className={styles.button} onClick={handleClear}>
           Clear All
@@ -120,6 +95,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
           Send to Server
         </button>
       </div>
+
+
     </div>
   );
 };

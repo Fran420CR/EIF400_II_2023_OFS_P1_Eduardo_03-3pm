@@ -27,6 +27,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const data = { text: key, isKeyword: isKeywordResult };
     return res.status(200).json(data);
   } else {
-    return res.status(405).end(); // Método no permitido
+    return res.status(405).end(); 
   }
 }
