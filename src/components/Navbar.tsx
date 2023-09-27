@@ -7,7 +7,7 @@ const links: NavbarProps[] = [
     route: '/',
   },
   {
-    label: 'Nuestros Productos',
+    label: 'Our Products',
     route: '/Products',
   },
 ];

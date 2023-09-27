@@ -240,28 +240,28 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
           Send to Server
         </button>
         <button className={styles.buttonSend} onClick={handleSaveScript}>
-          Guardar Script
+          Save Script
         </button>
         <button className={styles.buttonSend} onClick={handleEvaluateScript}>
-          Evaluar
+          Compile
         </button>
         <button className={styles.buttonSend} onClick={() => handleLoadScript(fileName)}>
-          Recuperar Script
+          Load Script
         </button>
         <button className={styles.buttonSend} onClick={handleAboutClick}>
-          ABOUT
+          About
         </button>
         {aboutData && <Dialog data={aboutData} onClose={handleCloseDialog} />}
       </div>
 
       <input
         type="text"
-        placeholder="Nombre del archivo"
+        placeholder="File name"
         value={fileName}
         onChange={handleFileNameChange}
       />
       <button className={styles.buttonSend} onClick={handleNewArchive}>
-        Nuevo Archivo
+        New File
       </button>
 
       <div className={styles.customContainer}>
