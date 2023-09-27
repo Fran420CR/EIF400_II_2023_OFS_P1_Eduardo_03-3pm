@@ -22,6 +22,7 @@ Para ejecutar este proyecto localmente, sigue estos pasos:
 
 1. Navega al directorio del proyecto
 2. Instala las dependencias: `npm install`
+3. Buildea el proyecto: `npm run build`
 3. Inicia la aplicación: `npm run dev`
 
 
