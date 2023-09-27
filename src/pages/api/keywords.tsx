@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-function loadKeywordsList() {
+function loadKeywordsList(): string[] {
   const keywordsFilePath = path.join(process.cwd(), '/src/keywords.json');
   try {
     const keywordsData = fs.readFileSync(keywordsFilePath, 'utf8');

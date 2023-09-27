@@ -1,8 +1,12 @@
-import { API_SERVER_URL } from "@/components/Url";
 import TextEditor from "@/components/TextEditor";
+import { API_SERVER_URL } from "@/components/Url";
 import { useEffect, useState } from "react";
 
-const fetchKeywords = async () => {
+interface HomeProps {
+  keywordsList: string[];
+}
+
+const fetchKeywords = async (): Promise<string[]> => {
   try {
     const res = await fetch(`${API_SERVER_URL}/keywords`);
     if (!res.ok) {
@@ -16,23 +20,21 @@ const fetchKeywords = async () => {
   }
 };
 
-const Home: React.FC = () => {
-  const [keywordsList, setKeywordsList] = useState<string[]>([]);
+const Home: React.FC<HomeProps> = ({ keywordsList }) => {
+  const [fetchedKeywordsList, setFetchedKeywordsList] = useState<string[]>([]);
 
   useEffect(() => {
     fetchKeywords()
-      .then(keywords => setKeywordsList(keywords))
-      .catch(error => console.error('Error fetching keywords:', error));
+      .then((keywords) => setFetchedKeywordsList(keywords))
+      .catch((error) => console.error('Error fetching keywords:', error));
   }, []);
 
   return (
     <div className="Home">
-      <h1 style={{ textAlign: 'center' }}>OneFlowStream</h1>
-      <TextEditor keywordsList={keywordsList} />
+      <h1 style={{ textAlign: 'center' }}>One Flow Stream</h1>
+      <TextEditor keywordsList={fetchedKeywordsList} />
     </div>
   );
-
-  
 };
 
 export default Home;

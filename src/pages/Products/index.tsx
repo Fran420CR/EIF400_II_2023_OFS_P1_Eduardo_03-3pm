@@ -1,7 +1,14 @@
 import React from "react";
-import ProductsPage from "../../components/Products"; 
+import ProductsPage from "../../components/Products"; // Asegúrate de que esta sea la ruta correcta
 
-const products = [
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+}
+
+const products: Product[] = [
   {
     id: 1,
     name: "PC escritorio gama baja",
@@ -17,7 +24,7 @@ const products = [
   // Agrega más productos aquí
 ];
 
-const ProductsPageWrapper = () => {
+const ProductsPageWrapper: React.FC = () => {
   return <ProductsPage products={products} />;
 };
 

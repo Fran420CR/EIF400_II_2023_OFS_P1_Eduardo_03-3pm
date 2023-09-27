@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import styles from '../styles/Navbar.module.css';
-import NavLink from '../interfaces/NavbarProps'; 
+
+interface NavLink {
+  label: string;
+  route: string;
+}
 
 const links: NavLink[] = [
   {
     label: 'Home',
     route: '/',
-  },
-  {
-    label: 'About',
-    route: '/AboutUs',
   },
   {
     label: 'Nuestros Productos',

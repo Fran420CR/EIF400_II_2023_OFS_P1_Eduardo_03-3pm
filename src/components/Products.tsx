@@ -1,6 +1,16 @@
 import React from "react";
 import styles from "../styles/products.module.css";
-import type { Product, ProductsPageProps } from "../interfaces/ProductsProps";
+
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+}
+
+interface ProductsPageProps {
+  products: Product[];
+}
 
 const ProductsPage: React.FC<ProductsPageProps> = ({ products }) => {
   return (

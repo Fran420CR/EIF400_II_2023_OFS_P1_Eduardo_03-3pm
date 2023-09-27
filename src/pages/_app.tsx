@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
-import { AppProps } from "next/app"; 
+import { AppProps } from "next/app";
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Navbar />
@@ -9,3 +9,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+export default App;
