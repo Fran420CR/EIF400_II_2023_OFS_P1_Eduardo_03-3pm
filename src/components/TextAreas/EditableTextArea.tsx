@@ -9,7 +9,7 @@ const EditableTextArea: React.FC<EditableTextAreaProps> = ({ value, onChange }) 
       onChange={onChange}
       rows={10}
       cols={50}
-      placeholder="Escribe tu código aquí..."
+      placeholder="Write your code..."
     />
   );
 };
