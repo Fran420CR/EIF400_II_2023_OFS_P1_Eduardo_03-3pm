@@ -1,4 +1,4 @@
-.succesAlert {
+.successAlert {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,15 +11,15 @@
     transition: transform 0.3s ease-in-out; /* Agrega una transición suave */
   }
   
-  .succesAlert.active {
+  .successAlert.active {
     transform: translateY(0); /* Mostrar desde arriba */
   }
   
-  .succesAlert p {
+  .successAlert p {
     margin: 0;
   }
   
-  .succesAlert button {
+  .successAlert button {
     background-color: transparent;
     color: #ffffff;
     border: none;
