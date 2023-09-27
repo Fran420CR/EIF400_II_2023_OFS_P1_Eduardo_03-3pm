@@ -1,10 +1,6 @@
 import React from 'react';
 import styles from '../../styles/TextEditor.module.css';
 
-interface TranspilateTextAreaProps {
-  value: string;
-}
-
 const TranspilateTextArea: React.FC<TranspilateTextAreaProps> = ({ value }) => {
   return (
     <textarea

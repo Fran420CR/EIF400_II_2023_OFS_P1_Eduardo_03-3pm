@@ -1,0 +1,4 @@
+interface TranspilateTextAreaProps {
+    value: string;
+  }
+  

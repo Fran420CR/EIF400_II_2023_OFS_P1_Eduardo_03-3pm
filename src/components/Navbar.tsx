@@ -1,12 +1,7 @@
 import Link from 'next/link';
 import styles from '../styles/Navbar.module.css';
 
-interface NavLink {
-  label: string;
-  route: string;
-}
-
-const links: NavLink[] = [
+const links: NavbarProps[] = [
   {
     label: 'Home',
     route: '/',

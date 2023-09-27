@@ -1,0 +1,4 @@
+interface ResponseTextAreaProps {
+    value: string;
+  }
+  

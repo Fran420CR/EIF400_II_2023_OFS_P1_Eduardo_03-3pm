@@ -16,9 +16,8 @@ import KeywordChecker from './KeywordChecker';
 import SuccessAlert from '@/components/Alerts/SuccessAlert';
 import ErrorAlert from '@/components/Alerts/ErrorAlert';
 
-interface TextEditorProps {
-  keywordsList: string[];
-}
+// Interfaces
+import { TextEditorProps, Alert, AboutData } from '../interfaces/TextEditorProps'
 
 const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
   const [inputText, setInputText] = useState('');

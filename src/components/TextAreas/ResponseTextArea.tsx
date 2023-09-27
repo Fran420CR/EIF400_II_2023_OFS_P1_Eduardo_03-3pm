@@ -1,10 +1,6 @@
 import React from 'react';
 import styles from '../../styles/TextEditor.module.css';
 
-interface ResponseTextAreaProps {
-  value: string;
-}
-
 const ResponseTextArea: React.FC<ResponseTextAreaProps> = ({ value }) => {
   return (
     <textarea

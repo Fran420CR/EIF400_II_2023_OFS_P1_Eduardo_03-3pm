@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../../styles/ErrorAlert.module.css'; // Importa los estilos CSS módulo
 
-interface ErrorAlertProps {
-  message: string;
-  onClose: () => void;
-}
-
 const ErrorAlert: React.FC<ErrorAlertProps> = ({ message, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
 

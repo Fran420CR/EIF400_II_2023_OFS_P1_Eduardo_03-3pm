@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../../styles/SuccessAlert.module.css'; // Importa los estilos CSS módulo
 
-interface SuccessAlertProps {
-  message: string;
-  onClose: () => void;
-}
-
 const SuccessAlert: React.FC<SuccessAlertProps> = ({ message, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
 

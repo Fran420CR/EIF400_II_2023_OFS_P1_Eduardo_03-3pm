@@ -1,18 +1,5 @@
 import React from 'react';
 
-interface DialogProps {
-  data: {
-    teamMembers: string[];
-    course: string;
-    project: string;
-    semester: string;
-    year: string;
-    school: string;
-    university: string;
-  };
-  onClose: () => void;
-}
-
 const Dialog: React.FC<DialogProps> = ({ data, onClose }) => {
   return (
     <div className="dialog">

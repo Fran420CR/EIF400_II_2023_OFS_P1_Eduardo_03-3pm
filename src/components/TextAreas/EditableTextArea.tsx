@@ -1,11 +1,6 @@
 import React from 'react';
 import styles from '../../styles/TextEditor.module.css';
 
-interface EditableTextAreaProps {
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-}
-
 const EditableTextArea: React.FC<EditableTextAreaProps> = ({ value, onChange }) => {
   return (
     <textarea
