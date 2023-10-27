@@ -119,10 +119,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
       if (!response.ok) {
         throw new Error('La solicitud no tuvo éxito.');
       }
-
-      const {message, result}= await response.json();
-
-      setOutputText(`${message}\n\n${result}`);
+      const {message,result} = await response.json();
+      setOutputText(`${message}\n\n${result}`); 
       
     } catch (error) {
       console.error('Error sending data to server:', error);
@@ -234,13 +232,13 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
           Clear All
         </button>
         <button className={styles.buttonSend} onClick={handleSendToServer}>
-          Send to Server
+          Compile
         </button>
         <button className={styles.buttonSend} onClick={handleSaveScript}>
           Save Script
         </button>
         <button className={styles.buttonSend} onClick={handleEvaluateScript}>
-          Compile
+          Eval
         </button>
         <button className={styles.buttonSend} onClick={() => handleLoadScript(fileName)}>
           Load Script
