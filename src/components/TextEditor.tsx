@@ -119,13 +119,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
       if (!response.ok) {
         throw new Error('La solicitud no tuvo éxito.');
       }
-
-      const responseData = await response.json();
-
-      // Formatear la respuesta JSON como una cadena legible
-      const formattedResponse = JSON.stringify(responseData, null, 2);
-      setSelectedSuggestion(formattedResponse); // Primero guarda el valor en una variable
-      setOutputText(formattedResponse); // Luego actualiza el estado de outputText
+      const {message,result} = await response.json();
+      setOutputText(`${message}\n\n${result}`); 
       
     } catch (error) {
       console.error('Error sending data to server:', error);
