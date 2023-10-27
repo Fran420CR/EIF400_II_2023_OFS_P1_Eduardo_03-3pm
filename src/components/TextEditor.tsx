@@ -120,12 +120,9 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
         throw new Error('La solicitud no tuvo éxito.');
       }
 
-      const responseData = await response.json();
+      const {message, result}= await response.json();
 
-      // Formatear la respuesta JSON como una cadena legible
-      const formattedResponse = JSON.stringify(responseData, null, 2);
-      setSelectedSuggestion(formattedResponse); // Primero guarda el valor en una variable
-      setOutputText(formattedResponse); // Luego actualiza el estado de outputText
+      setOutputText(`${message}\n\n${result}`);
       
     } catch (error) {
       console.error('Error sending data to server:', error);
@@ -285,7 +282,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
 
         {/* AREA DE SALIDA (TA) */}
         <div className={styles.lineNumbers}>{renderLineNumbers(inputText)}</div>
-        <TranspilateTextArea value={selectedSuggestion || outputText} />
+        <TranspilateTextArea value={ outputText} />
       </div>
 
       <div className={styles.compile_area}>
