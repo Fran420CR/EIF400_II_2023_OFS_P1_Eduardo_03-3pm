@@ -232,13 +232,13 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
           Clear All
         </button>
         <button className={styles.buttonSend} onClick={handleSendToServer}>
-          Send to Server
+          Compile
         </button>
         <button className={styles.buttonSend} onClick={handleSaveScript}>
           Save Script
         </button>
         <button className={styles.buttonSend} onClick={handleEvaluateScript}>
-          Compile
+          Eval
         </button>
         <button className={styles.buttonSend} onClick={() => handleLoadScript(fileName)}>
           Load Script
