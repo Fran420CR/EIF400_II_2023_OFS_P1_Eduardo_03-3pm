@@ -280,7 +280,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
 
         {/* AREA DE SALIDA (TA) */}
         <div className={styles.lineNumbers}>{renderLineNumbers(inputText)}</div>
-        <TranspilateTextArea value={selectedSuggestion || outputText} />
+        <TranspilateTextArea value={ outputText} />
       </div>
 
       <div className={styles.compile_area}>
