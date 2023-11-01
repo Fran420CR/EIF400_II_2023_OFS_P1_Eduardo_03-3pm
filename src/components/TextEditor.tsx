@@ -51,10 +51,10 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
       isFileNameEmpty && isInputTextEmpty
         ? evento + 'Tanto el nombre del archivo como el contenido están vacíos.'
         : isFileNameEmpty
-        ? evento + 'El nombre del archivo está vacío.'
-        : isInputTextEmpty
-        ? evento + 'El contenido del archivo está vacío.'
-        : null;
+          ? evento + 'El nombre del archivo está vacío.'
+          : isInputTextEmpty
+            ? evento + 'El contenido del archivo está vacío.'
+            : null;
 
     if (errorMessage) {
       setAlert({ type: 'error', message: errorMessage });
@@ -106,6 +106,9 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
 
   const handleSendToServer = async () => {
     if (handleError('enviar al servidor. ')) return;
+    handleExecuteScripts();
+    /*
+    if (handleError('enviar al servidor. ')) return;
 
     try {
       const response = await fetch(`${API_SERVER_URL}/process`, {
@@ -125,7 +128,42 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
     } catch (error) {
       console.error('Error sending data to server:', error);
     }
+    */
   };
+
+  const handleExecuteScripts = () => {
+    try {
+      const { spawnSync } = require('child_process');
+  
+      // Ejecuta test_1.ofs
+      const result1 = spawnSync('node', ['test_1.ofs'], { encoding: 'utf-8' });
+  
+      if (result1.error) {
+        console.error('Error al ejecutar test_1.ofs:', result1.error);
+        return;
+      }
+  
+      const scriptOutput1 = result1.stdout;
+  
+      // Ejecuta test_2.ofs
+      const result2 = spawnSync('node', ['test_2.ofs'], { encoding: 'utf-8' });
+  
+      if (result2.error) {
+        console.error('Error al ejecutar test_2.ofs:', result2.error);
+        return;
+      }
+  
+      const scriptOutput2 = result2.stdout;
+  
+      // Combina las salidas de ambos scripts como desees
+      const combinedOutput = `${scriptOutput1}\n${scriptOutput2}`;
+  
+      setOutputText(combinedOutput);
+    } catch (error) {
+      console.error('Error ejecutando los scripts:', error);
+    }
+  };
+
 
   const handleAboutClick = async () => {
     try {
@@ -280,7 +318,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
 
         {/* AREA DE SALIDA (TA) */}
         <div className={styles.lineNumbers}>{renderLineNumbers(inputText)}</div>
-        <TranspilateTextArea value={ outputText} />
+        <TranspilateTextArea value={outputText} />
       </div>
 
       <div className={styles.compile_area}>
