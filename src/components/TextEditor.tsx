@@ -119,8 +119,12 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
       if (!response.ok) {
         throw new Error('La solicitud no tuvo éxito.');
       }
-      const {message,result} = await response.json();
-      setOutputText(`${message}\n\n${result}`); 
+
+      const {message, result} = await response.json();
+
+      // Formatear la respuesta JSON como una cadena legible
+      setOutputText(`${message}\n\n${result}`); // Luego actualiza el estado de outputText
+
       
     } catch (error) {
       console.error('Error sending data to server:', error);
@@ -146,16 +150,16 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
 
   const handleLoadScript = async (scriptId: string) => {
     try {
-      const response = await fetch(`${API_SERVER_URL}/script?id=${scriptId}`, { method: 'GET' });
+      const response = await fetch(`${API_SERVER_URL}/scripts/${scriptId}`, { method: 'GET' });
 
       if (!response.ok) {
         setAlert({ type: 'error', message: `Error. No se encontró el archivo con el nombre ${scriptId}` });
         throw new Error('La solicitud no tuvo éxito.');
       }
 
-      const scriptContent = await response.text();
+      const {content} = await response.json();
 
-      setInputText(scriptContent); // Establece el contenido del script en el área editable (EA)
+      setInputText(content); // Establece el contenido del script en el área editable (EA)
     } catch (error) {
       console.error('Error al cargar el script:', error);
     }
@@ -193,24 +197,19 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
       console.error('Error al enviar el script para evaluación:', error);
     }
   };
-
+  
   const handleSaveScript = async () => {
-    const partes = fileName.split('.');
-    const name = partes[0];
-    const extension = partes[partes.length - 1];
-
     if (handleError('guardar el script. ')) return;
 
     try {
-      const response = await fetch(`${API_SERVER_URL}/save`, {
+      const response = await fetch(`${API_SERVER_URL}/scripts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Cambia el tipo de contenido a JSON
         },
         body: JSON.stringify({
-          extension,
-          fileName: name, // Agrega el nombre personalizado al cuerpo de la solicitud
-          scriptContent: inputText, // Agrega el contenido del script
+          fileName: fileName, // Agrega el nombre personalizado al cuerpo de la solicitud
+          content: inputText, // Agrega el contenido del script
         }),
       });
 
@@ -224,6 +223,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
       console.error('Error al enviar la solicitud:', error);
     }
   };
+
 
   return (
     <div>
