@@ -7,7 +7,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const { id } = req.query as { id: string }; 
 
-    const scriptFilePath = path.join(scriptsDirectory, `${id}.txt`);
+
    
     try {
       const scriptContent = getScriptContent(id);
