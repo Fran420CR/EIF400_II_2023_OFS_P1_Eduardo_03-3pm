@@ -105,9 +105,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
   };
 
   const handleSendToServer = async () => {
-    if (handleError('enviar al servidor. ')) return;
-    handleExecuteScripts();
-    /*
+
+
     if (handleError('enviar al servidor. ')) return;
 
     try {
@@ -128,9 +127,12 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
     } catch (error) {
       console.error('Error sending data to server:', error);
     }
+        /*
+        if (handleError('enviar al servidor. ')) return;
+    handleExecuteScripts();
     */
   };
-
+/*
   const handleExecuteScripts = () => {
     try {
       const { spawnSync } = require('child_process');
@@ -163,7 +165,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
       console.error('Error ejecutando los scripts:', error);
     }
   };
-
+*/
 
   const handleAboutClick = async () => {
     try {
