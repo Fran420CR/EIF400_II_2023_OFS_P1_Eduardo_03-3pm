@@ -4,8 +4,11 @@ import { getScriptContent } from '../../data/CRUD/CRUD';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
-    const { id } = req.query as { id: string };
 
+    const { id } = req.query as { id: string }; 
+
+    const scriptFilePath = path.join(scriptsDirectory, `${id}.txt`);
+   
     try {
       const scriptContent = getScriptContent(id);
       if (scriptContent) {

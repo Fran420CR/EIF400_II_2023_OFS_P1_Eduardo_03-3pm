@@ -51,10 +51,10 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
       isFileNameEmpty && isInputTextEmpty
         ? evento + 'Tanto el nombre del archivo como el contenido están vacíos.'
         : isFileNameEmpty
-        ? evento + 'El nombre del archivo está vacío.'
-        : isInputTextEmpty
-        ? evento + 'El contenido del archivo está vacío.'
-        : null;
+          ? evento + 'El nombre del archivo está vacío.'
+          : isInputTextEmpty
+            ? evento + 'El contenido del archivo está vacío.'
+            : null;
 
     if (errorMessage) {
       setAlert({ type: 'error', message: errorMessage });
@@ -105,6 +105,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
   };
 
   const handleSendToServer = async () => {
+
+
     if (handleError('enviar al servidor. ')) return;
 
     try {
@@ -120,17 +122,54 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
         throw new Error('La solicitud no tuvo éxito.');
       }
 
-      const responseData = await response.json();
+      const {message, result} = await response.json();
 
       // Formatear la respuesta JSON como una cadena legible
-      const formattedResponse = JSON.stringify(responseData, null, 2);
-      setSelectedSuggestion(formattedResponse); // Primero guarda el valor en una variable
-      setOutputText(formattedResponse); // Luego actualiza el estado de outputText
+      setOutputText(`${message}\n\n${result}`); // Luego actualiza el estado de outputText
+
       
     } catch (error) {
       console.error('Error sending data to server:', error);
     }
+        /*
+        if (handleError('enviar al servidor. ')) return;
+    handleExecuteScripts();
+    */
   };
+/*
+  const handleExecuteScripts = () => {
+    try {
+      const { spawnSync } = require('child_process');
+  
+      // Ejecuta test_1.ofs
+      const result1 = spawnSync('node', ['test_1.ofs'], { encoding: 'utf-8' });
+  
+      if (result1.error) {
+        console.error('Error al ejecutar test_1.ofs:', result1.error);
+        return;
+      }
+  
+      const scriptOutput1 = result1.stdout;
+  
+      // Ejecuta test_2.ofs
+      const result2 = spawnSync('node', ['test_2.ofs'], { encoding: 'utf-8' });
+  
+      if (result2.error) {
+        console.error('Error al ejecutar test_2.ofs:', result2.error);
+        return;
+      }
+  
+      const scriptOutput2 = result2.stdout;
+  
+      // Combina las salidas de ambos scripts como desees
+      const combinedOutput = `${scriptOutput1}\n${scriptOutput2}`;
+  
+      setOutputText(combinedOutput);
+    } catch (error) {
+      console.error('Error ejecutando los scripts:', error);
+    }
+  };
+*/
 
   const handleAboutClick = async () => {
     try {
@@ -151,16 +190,16 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
 
   const handleLoadScript = async (scriptId: string) => {
     try {
-      const response = await fetch(`${API_SERVER_URL}/script?id=${scriptId}`, { method: 'GET' });
+      const response = await fetch(`${API_SERVER_URL}/scripts/${scriptId}`, { method: 'GET' });
 
       if (!response.ok) {
         setAlert({ type: 'error', message: `Error. No se encontró el archivo con el nombre ${scriptId}` });
         throw new Error('La solicitud no tuvo éxito.');
       }
 
-      const scriptContent = await response.text();
+      const {content} = await response.json();
 
-      setInputText(scriptContent); // Establece el contenido del script en el área editable (EA)
+      setInputText(content); // Establece el contenido del script en el área editable (EA)
     } catch (error) {
       console.error('Error al cargar el script:', error);
     }
@@ -198,24 +237,19 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
       console.error('Error al enviar el script para evaluación:', error);
     }
   };
-
+  
   const handleSaveScript = async () => {
-    const partes = fileName.split('.');
-    const name = partes[0];
-    const extension = partes[partes.length - 1];
-
     if (handleError('guardar el script. ')) return;
 
     try {
-      const response = await fetch(`${API_SERVER_URL}/save`, {
+      const response = await fetch(`${API_SERVER_URL}/scripts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Cambia el tipo de contenido a JSON
         },
         body: JSON.stringify({
-          extension,
-          fileName: name, // Agrega el nombre personalizado al cuerpo de la solicitud
-          scriptContent: inputText, // Agrega el contenido del script
+          fileName: fileName, // Agrega el nombre personalizado al cuerpo de la solicitud
+          content: inputText, // Agrega el contenido del script
         }),
       });
 
@@ -230,6 +264,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
     }
   };
 
+
   return (
     <div>
       <div className={styles.customButtons}>
@@ -237,13 +272,13 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
           Clear All
         </button>
         <button className={styles.buttonSend} onClick={handleSendToServer}>
-          Send to Server
+          Compile
         </button>
         <button className={styles.buttonSend} onClick={handleSaveScript}>
           Save Script
         </button>
         <button className={styles.buttonSend} onClick={handleEvaluateScript}>
-          Compile
+          Eval
         </button>
         <button className={styles.buttonSend} onClick={() => handleLoadScript(fileName)}>
           Load Script
@@ -285,7 +320,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
 
         {/* AREA DE SALIDA (TA) */}
         <div className={styles.lineNumbers}>{renderLineNumbers(inputText)}</div>
-        <TranspilateTextArea value={selectedSuggestion || outputText} />
+        <TranspilateTextArea value={outputText} />
       </div>
 
       <div className={styles.compile_area}>
