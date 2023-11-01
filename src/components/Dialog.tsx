@@ -1,9 +1,11 @@
 import React from 'react';
+import styles from '../styles/Dialog.module.css'
+
 
 const Dialog: React.FC<DialogProps> = ({ data, onClose }) => {
   return (
-    <div className="dialog">
-      <div className="dialog-content">
+    <div className= {styles.dialog_modal}>
+      <div className={styles.dialog_content}>
         <h2>About Us</h2>
         <ul>
           <li>Team Members:</li>
@@ -19,8 +21,8 @@ const Dialog: React.FC<DialogProps> = ({ data, onClose }) => {
           <li>School: {data.school}</li>
           <li>University: {data.university}</li>
         </ul>
+        <button onClick={onClose}>Close</button>
       </div>
-      <button onClick={onClose}>Close</button>
     </div>
   );
 };
