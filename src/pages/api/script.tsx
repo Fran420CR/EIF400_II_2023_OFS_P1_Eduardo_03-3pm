@@ -6,9 +6,8 @@ const scriptsDirectory = path.join(process.cwd(), '/src/scripts');
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
-    const { id } = req.query as { id: string }; // Obtén el scriptId de los parámetros de consulta
+    const { id } = req.query as { id: string }; 
 
-    // A continuación, puedes usar el scriptId para cargar el script correspondiente
     const scriptFilePath = path.join(scriptsDirectory, `${id}.txt`);
     
     try {
