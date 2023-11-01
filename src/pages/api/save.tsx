@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { saveFile } from '../../data/save/CRUD';
+import { saveFile } from '../../data/CRUD/CRUD';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
