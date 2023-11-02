@@ -24,13 +24,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 import { spawn } from 'child_process';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
       const fileName: string = req.body.script;
       const file = fileName.replace("ofs", "mjs")
 
-      const scriptPath = `../../test.ofs/${file}`;
+      const scriptPath = `/src/test.ofs/test_1.mjs`;
       const childProcess = spawn('node', ['--experimental-modules', scriptPath], {
         stdio: ['pipe', 'pipe', 'pipe'],
       });
@@ -52,6 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.status(500).json({ success: false, error: 'Error al ejecutar el script' });
         }
       });
+
     } catch (error) {
       res.status(500).json({ success: false, error: 'Error al evaluar' });
     }
