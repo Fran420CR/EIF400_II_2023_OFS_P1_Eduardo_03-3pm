@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import fsm from 'fs';
 import path from 'path';
-
+import { parse, UrlWithParsedQuery } from 'url';
 //save
 const scriptsDirectory = path.join(process.cwd(), '/src/scripts');
 const EXTENSION_DEFAULT = 'txt';
@@ -81,23 +81,35 @@ export function getKeywordsList(): string[] {
 }
 
 
+
+
+
 //process
-export function processText(text: string): Record<string, string> {
-  const timestamp: string = new Date().toISOString();
+export async function processText( fileName: string):  Promise<string | null> {
+  const file = fileName.replace("ofs", "mjs");
+  const FilePath = path.join(process.cwd(), `/src/test.ofs/${file}`);
 
-  console.log(text);
+  try {
+    const scriptContent = await fs.readFile(FilePath, 'utf8');
+    return scriptContent;
 
-  const responseJson = {
-    message: `Echo from server: at ${timestamp}`,
-    result: text,
-  };
+  } catch (error) {
 
-  return responseJson;
+    console.error('Error al leer el archivo', error);
+    return null;
+  }
 }
 
 
+
+
+
+
+
+
+
 //words
-import { parse, UrlWithParsedQuery } from 'url';
+
 function loadKeywordsList(): string[] {
   const keywordsFilePath = path.join(process.cwd(), '/src/keywords.json');
   try {

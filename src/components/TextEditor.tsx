@@ -115,61 +115,25 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: inputText }),
+        body: JSON.stringify({ text: inputText, fileName: fileName }),
       });
 
       if (!response.ok) {
         throw new Error('La solicitud no tuvo éxito.');
       }
 
-      const {message, result} = await response.json();
+      const {message, result, file} = await response.json();
 
       // Formatear la respuesta JSON como una cadena legible
-      setOutputText(`${message}\n\n${result}`); // Luego actualiza el estado de outputText
+      setOutputText(`${result}`); // Luego actualiza el estado de outputText
 
       
     } catch (error) {
       console.error('Error sending data to server:', error);
     }
-        /*
-        if (handleError('enviar al servidor. ')) return;
-    handleExecuteScripts();
-    */
+  
   };
-/*
-  const handleExecuteScripts = () => {
-    try {
-      const { spawnSync } = require('child_process');
-  
-      // Ejecuta test_1.ofs
-      const result1 = spawnSync('node', ['test_1.ofs'], { encoding: 'utf-8' });
-  
-      if (result1.error) {
-        console.error('Error al ejecutar test_1.ofs:', result1.error);
-        return;
-      }
-  
-      const scriptOutput1 = result1.stdout;
-  
-      // Ejecuta test_2.ofs
-      const result2 = spawnSync('node', ['test_2.ofs'], { encoding: 'utf-8' });
-  
-      if (result2.error) {
-        console.error('Error al ejecutar test_2.ofs:', result2.error);
-        return;
-      }
-  
-      const scriptOutput2 = result2.stdout;
-  
-      // Combina las salidas de ambos scripts como desees
-      const combinedOutput = `${scriptOutput1}\n${scriptOutput2}`;
-  
-      setOutputText(combinedOutput);
-    } catch (error) {
-      console.error('Error ejecutando los scripts:', error);
-    }
-  };
-*/
+
 
   const handleAboutClick = async () => {
     try {
@@ -221,22 +185,26 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ script: inputText }), // Envía el contenido del script para evaluación
+        body: JSON.stringify({ script: fileName }), // Envía el contenido del script para evaluación
       });
 
       if (!response.ok) {
         throw new Error('La solicitud de evaluación no tuvo éxito.');
       }
 
-      const result = await response.json();
+      const {result} = await response.json();
 
       // Extrae el contenido del archivo "ra_fake.txt"
-      const content = result.result;
-      setResponse(result.result); // Establece el resultado de la evaluación en el área de respuesta (RA)
+    
+      setResponse(result); // Establece el resultado de la evaluación en el área de respuesta (RA)
     } catch (error) {
       console.error('Error al enviar el script para evaluación:', error);
     }
   };
+  
+
+
+
   
   const handleSaveScript = async () => {
     if (handleError('guardar el script. ')) return;
