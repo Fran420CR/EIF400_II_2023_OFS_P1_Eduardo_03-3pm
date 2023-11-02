@@ -195,7 +195,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
 
   const handleEvaluateScript = async () => {
     handleSendToServer();
-
+    sendToPrologServer()
     if (handleError('evaluar el script. ')) return;
 
     try {

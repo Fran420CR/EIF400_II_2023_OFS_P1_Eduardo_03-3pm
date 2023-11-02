@@ -4,6 +4,12 @@
 :- use_module(library(http/http_parameters)).
 :- use_module(library(http/http_client)).
 :- use_module(library(http/http_json)).
+:- use_module(library(http/http_cors)).
+
+% Configura las opciones de CORS para permitir solicitudes desde http://localhost:3000
+:- set_setting_default(http:cors, [methods([get, post, options]),
+                                   origin('http://localhost:3000'),
+                                   headers([authorization, 'Content-Type', 'X-Requested-With'])]).
 
 % Define una ruta para recibir la salida del archivo TypeScript
 :- http_handler(root(test_output), handle_test_output, [method(post)]).
@@ -27,4 +33,3 @@ server(Port) :-
     (current_prolog_flag(argv, [SPort | _]) -> true ; SPort='8000'),
     atom_number(SPort, Port),
     server(Port).
-
