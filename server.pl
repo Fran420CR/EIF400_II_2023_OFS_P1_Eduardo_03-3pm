@@ -32,4 +32,5 @@ server(Port) :-
 :- initialization
     (current_prolog_flag(argv, [SPort | _]) -> true ; SPort='8000'),
     atom_number(SPort, Port),
+    set_setting_default(http:cors, [*]), % Allows cors for every
     server(Port).
