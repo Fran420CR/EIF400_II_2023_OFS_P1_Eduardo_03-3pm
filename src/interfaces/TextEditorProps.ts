@@ -11,4 +11,3 @@ export interface TextEditorProps {
   export interface AboutData {
     // Define las propiedades de la interfaz aboutData aquí
   }
-  

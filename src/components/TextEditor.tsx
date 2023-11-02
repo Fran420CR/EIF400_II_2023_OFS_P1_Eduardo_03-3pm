@@ -15,6 +15,7 @@ import Dialog from '@/components/Dialog';
 import KeywordChecker from './KeywordChecker';
 import SuccessAlert from '@/components/Alerts/SuccessAlert';
 import ErrorAlert from '@/components/Alerts/ErrorAlert';
+import axios from 'axios';
 
 // Interfaces
 import { TextEditorProps, Alert, AboutData } from '../interfaces/TextEditorProps'
@@ -27,6 +28,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedSuggestion, setSelectedSuggestion] = useState('');
   const [alert, setAlert] = useState<{ type: string; message: string } | null>(null);
+  let outputData : string = '';
+  const prologServerURL = 'http://localhost:8000/test_output';
 
   // about
   const [aboutData, setAboutData] = useState<any | null>(null);
@@ -126,7 +129,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
 
      
       setOutputText(`${result}`); 
-
+      outputData = result;
       
     } catch (error) {
       console.error('Error sending data to server:', error);
@@ -134,6 +137,17 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
   
   };
 
+  axios.post(prologServerURL, outputData)
+  .then((response) => {
+    // Procesa la respuesta del servidor Prolog, que contendrá la salida modificada
+    const modifiedOutput = response.data.content;
+    // Aquí puedes hacer lo que necesites con la salida modificada
+    console.log('Salida modificada:', modifiedOutput);
+    
+  })
+  .catch((error) => {
+    console.error('Error al enviar la solicitud al servidor Prolog:', error);
+  });
 
   const handleAboutClick = async () => {
     try {
