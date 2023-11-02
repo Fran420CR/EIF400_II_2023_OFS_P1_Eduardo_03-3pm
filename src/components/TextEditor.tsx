@@ -137,17 +137,22 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
   
   };
 
-  axios.post(prologServerURL, outputData)
-  .then((response) => {
-    // Procesa la respuesta del servidor Prolog, que contendrá la salida modificada
-    const modifiedOutput = response.data.content;
-    // Aquí puedes hacer lo que necesites con la salida modificada
-    console.log('Salida modificada:', modifiedOutput);
+  const sendToPrologServer = () => {
     
-  })
-  .catch((error) => {
-    console.error('Error al enviar la solicitud al servidor Prolog:', error);
-  });
+    axios.post(prologServerURL, outputData)
+    .then((response) => {
+      // Procesa la respuesta del servidor Prolog, que contendrá la salida modificada
+      const modifiedOutput = response.data.content;
+      // Aquí puedes hacer lo que necesites con la salida modificada
+      console.log('Salida modificada:', modifiedOutput);
+  
+    })
+    .catch((error) => {
+      console.error('Error al enviar la solicitud al servidor Prolog:', error);
+    });
+
+  };
+
 
   const handleAboutClick = async () => {
     try {
