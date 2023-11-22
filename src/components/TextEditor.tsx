@@ -124,8 +124,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
 
       const {message, result, file} = await response.json();
 
-      // Formatear la respuesta JSON como una cadena legible
-      setOutputText(`${result}`); // Luego actualiza el estado de outputText
+     
+      setOutputText(`${result}`); 
 
       
     } catch (error) {
@@ -201,10 +201,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
       console.error('Error al enviar el script para evaluación:', error);
     }
   };
-  
-
-
-
   
   const handleSaveScript = async () => {
     if (handleError('guardar el script. ')) return;

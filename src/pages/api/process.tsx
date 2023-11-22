@@ -9,6 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
     const file = fileName.replace("ofs", "mjs");
+
     res.status(200).json({message: `Echo from server ${timestamp}`, result:result, file: file});
   } else {
     res.status(405).end();
