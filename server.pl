@@ -9,6 +9,8 @@
 :- use_module(library(http/html_write)).
 :- use_module(library(http/http_server)).
 
+:- http_handler('/test_output', handle_test_output, [method(post)]).
+
 % Configura las opciones de CORS para permitir solicitudes desde http://localhost:3000
 :- set_setting_default(http:cors, [methods([get, post, options]),
                                    origin('http://localhost:3000'),
