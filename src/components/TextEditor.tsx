@@ -215,6 +215,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
           fileName: fileName, // Agrega el nombre personalizado al cuerpo de la solicitud
           content: inputText, // Agrega el contenido del script
         }),
+        
       });
 
       if (response.ok) {
