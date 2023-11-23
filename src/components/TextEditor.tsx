@@ -15,6 +15,7 @@ import Dialog from '@/components/Dialog';
 import KeywordChecker from './KeywordChecker';
 import SuccessAlert from '@/components/Alerts/SuccessAlert';
 import ErrorAlert from '@/components/Alerts/ErrorAlert';
+import ClearText from '@/components/ClearText';
 
 // Interfaces
 import { TextEditorProps, Alert, AboutData } from '../interfaces/TextEditorProps'
@@ -34,9 +35,12 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
   // textoCargado
   const [loadedScript, setLoadedScript] = useState('');
 
-  const handleCloseAlert = () => {
-    setAlert(null);
-  };
+  //clear
+  const [isClearTextModalOpen, setClearTextModalOpen] = useState(false);
+
+  //const handleCloseAlert = () => {
+  //setAlert(null);
+  //};
 
   const handleFileNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFileName(e.target.value);
@@ -63,16 +67,22 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
     return false;
   };
 
-  const handleClear = () => {
-    const confirmed = window.confirm('Are you sure you want to clear the text?');
-    if (confirmed) {
-      setInputText('');
-      setOutputText('');
-      setLoadedScript('');
-      setResponse('');
-      setSelectedSuggestion('');
-      setSuggestions([]);
-    }
+  const handleClearText = () => {
+    setClearTextModalOpen(true);
+  };
+
+  const handleClearTextClose = () => {
+    setClearTextModalOpen(false);
+  };
+
+  const handleClearTextConfirm = () => {
+    setInputText('');
+    setOutputText('');
+    setLoadedScript('');
+    setResponse('');
+    setSelectedSuggestion('');
+    setSuggestions([]);
+    setClearTextModalOpen(false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -95,6 +105,10 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
     setOutputText(processedText);
   };
 
+  const handleCloseAlert = () => {
+    setAlert(null);
+  };
+  
   const handleSuggestionSelected = (suggestion: string) => {
     setInputText(suggestion);
     setSelectedSuggestion(suggestion);
@@ -122,16 +136,16 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
         throw new Error('La solicitud no tuvo éxito.');
       }
 
-      const {message, result, file} = await response.json();
+      const { message, result, file } = await response.json();
 
-     
-      setOutputText(`${result}`); 
+
+      setOutputText(`${result}`);
       handleSendResultToProlog(result);
-      
+
     } catch (error) {
       console.error('Error sending data to server:', error);
     }
-  
+
   };
 
 
@@ -144,16 +158,16 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
         },
         body: result,
       });
-  
+
       if (!response.ok) {
         throw new Error('La solicitud no tuvo éxito.');
       }
-  
+
       const responseData = await response.json();
-  
+
       // Mostrar la respuesta del servidor Prolog en la consola
       console.log('Respuesta del servidor Prolog:', responseData);
-  
+
     } catch (error) {
       console.error('Error sending result to Prolog server:', error);
     }
@@ -187,7 +201,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
         throw new Error('La solicitud no tuvo éxito.');
       }
 
-      const {content} = await response.json();
+      const { content } = await response.json();
 
       setInputText(content); // Establece el contenido del script en el área editable (EA)
     } catch (error) {
@@ -218,16 +232,16 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
         throw new Error('La solicitud de evaluación no tuvo éxito.');
       }
 
-      const {result} = await response.json();
+      const { result } = await response.json();
 
       // Extrae el contenido del archivo "ra_fake.txt"
-    
+
       setResponse(result); // Establece el resultado de la evaluación en el área de respuesta (RA)
     } catch (error) {
       console.error('Error al enviar el script para evaluación:', error);
     }
   };
-  
+
   const handleSaveScript = async () => {
     if (handleError('guardar el script. ')) return;
 
@@ -241,7 +255,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
           fileName: fileName, // Agrega el nombre personalizado al cuerpo de la solicitud
           content: inputText, // Agrega el contenido del script
         }),
-        
+
       });
 
       if (response.ok) {
@@ -259,9 +273,12 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
   return (
     <div>
       <div className={styles.customButtons}>
-        <button className={styles.button} onClick={handleClear}>
+        <button className={styles.button} onClick={handleClearText}>
           Clear All
         </button>
+        {isClearTextModalOpen && (
+          <ClearText onClose={handleClearTextClose} onConfirm={handleClearTextConfirm} />
+        )}
         <button className={styles.buttonSend} onClick={handleSendToServer}>
           Compile
         </button>
