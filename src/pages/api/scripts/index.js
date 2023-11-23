@@ -18,9 +18,20 @@ export default async function handler (req, res){
 
         case "POST":
             try{
-                const newScript = new Script(body);
-                const savedScript = await newScript.save();
+        
+                  const existingScript = await Script.findOne({ fileName: body.fileName });
+                    
+                 if (existingScript) {
+          
+                      existingScript.content = body.content;
+                      const updatedScript = await existingScript.save();
+                     return res.status(200).json(updatedScript);
+                 } else {
+      
+                     const newScript = new Script(body);
+                    const savedScript = await newScript.save();
                 return res.status(200).json(savedScript);
+                }
             }catch(error){
                 return res.status(500).json({error: error.messahe});
             }

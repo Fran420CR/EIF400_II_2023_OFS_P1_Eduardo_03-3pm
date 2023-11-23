@@ -126,13 +126,40 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
 
      
       setOutputText(`${result}`); 
-
+      handleSendResultToProlog(result);
       
     } catch (error) {
       console.error('Error sending data to server:', error);
     }
   
   };
+
+
+  const handleSendResultToProlog = async (result : String) => {
+    try {
+      const response = await fetch('http://localhost:8000/test_output', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ result }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('La solicitud no tuvo éxito.');
+      }
+  
+      const responseData = await response.json();
+  
+      // Mostrar la respuesta del servidor Prolog en la consola
+      console.log('Respuesta del servidor Prolog:', responseData);
+  
+    } catch (error) {
+      console.error('Error sending result to Prolog server:', error);
+    }
+  };
+
 
 
   const handleAboutClick = async () => {
@@ -215,6 +242,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
           fileName: fileName, // Agrega el nombre personalizado al cuerpo de la solicitud
           content: inputText, // Agrega el contenido del script
         }),
+        
       });
 
       if (response.ok) {

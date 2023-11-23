@@ -4,16 +4,15 @@ export class Stream {
     this.#iterable = iterable;
   }
 
-  static iterate(start, step) {
-    const generatorFunction = function* () {
+  static iterate(start, fn) {
+    function* gen(start, fn) {
       let current = start;
-      while (current <=  100 ) {
+      while (true) {
         yield current;
-        current = step(current);
+        current = fn(current);
       }
-    };
-
-    return new Stream(generatorFunction());
+    }
+    return new Stream(gen(start, fn));
   }
 
   filter(predicate) {
@@ -34,6 +33,19 @@ export class Stream {
       }
     }
     return new Stream(gen(this.#iterable));
+  }
+
+  cut(n){
+    function* gen(n, iterable){
+      for(const e of iterable){
+        if(n-- > 0){
+          yield e;
+        } else {
+          break;
+        }
+      }
+    }
+    return new Stream(gen(n, this.#iterable));
   }
 
   toList() {
