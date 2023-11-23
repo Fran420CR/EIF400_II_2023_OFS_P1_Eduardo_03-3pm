@@ -25,6 +25,11 @@ Para ejecutar este proyecto localmente, sigue estos pasos:
 3. Buildea el proyecto: `npm run build`
 4. Inicia la aplicación: `npm start`
 
+Ahora, para iniciar el servidor de prolog, sigue estos pasos:
+
+1. Abrir una nueva consola
+2. Ingresar el siguiente comando: swipl -s server.pl
+
 
 ## Créditos
 

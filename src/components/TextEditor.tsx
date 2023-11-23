@@ -135,15 +135,14 @@ const TextEditor: React.FC<TextEditorProps> = ({ keywordsList }) => {
   };
 
 
-  const handleSendResultToProlog = async (result : String) => {
+  const handleSendResultToProlog = async (result : any) => {
     try {
       const response = await fetch('http://localhost:8000/test_output', {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ result }),
+        body: result,
       });
   
       if (!response.ok) {

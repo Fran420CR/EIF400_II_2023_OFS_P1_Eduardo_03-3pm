@@ -9,6 +9,8 @@
 :- use_module(library(http/html_write)).
 :- use_module(library(http/http_server)).
 
+:- http_handler('/test_output', handle_test_output, []).
+
 % Configura las opciones de CORS para permitir solicitudes desde http://localhost:3000
 :- set_setting_default(http:cors, [methods([get, post, options]),
                                    origin('http://localhost:3000'),
@@ -26,7 +28,7 @@ handle_test_output(_Request) :-
     format('Access-Control-Allow-Origin: *\r\n'), % Permitir cualquier origen (puedes ajustarlo según tus necesidades)
     format('Access-Control-Allow-Methods: GET, POST, OPTIONS\r\n'),
     format('Access-Control-Allow-Headers: Content-Type\r\n\r\n'),
-    format('{ "message": "Hola, esta es una respuesta estática" }').
+    format('{ "message": "Hola, esta es una respuesta desde el server de prolog." }').
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MAIN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
